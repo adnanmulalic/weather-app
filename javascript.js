@@ -1,21 +1,23 @@
 const searchBtn = document.querySelector("#searchBtn");
 const searchField = document.querySelector("#searchField");
-let tempC = 0;
-let tempF = 0;
-let currentCondition = "";
+const resultsDiv = document.querySelector("#resultsDiv");
+const weatherDisplay = document.querySelector("#weatherDisplay");
 let weatherDataObject = {};
 
-async function getLocationName(){
-    while (document.querySelector("div").firstChild) {
-        document.querySelector("div").removeChild(document.querySelector("div").firstChild)
+function removeResults(){
+    while (resultsDiv.firstChild) {
+        resultsDiv.removeChild(resultsDiv.firstChild);
     }
+}
+
+async function getLocationName(){
+    removeResults();
     const response = await fetch("http://api.weatherapi.com/v1/search.json?key=ab064d767fd5473299684532230505&q=" + searchField.value, {mode: "cors"})
     const locationsData = await response.json();
     locationsData.forEach(location => {
         let currentLocation = document.createElement("span");
         currentLocation.textContent = location.name + ", " + location.country;
-        document.querySelector("div").appendChild(currentLocation);
-        console.log(location.name, location.country)
+        document.querySelector("#resultsDiv").appendChild(currentLocation);
     });
 }
 
@@ -30,24 +32,37 @@ async function getWeatherData(city = "berlin") {
     weatherDataObject.icon = weatherData.current.condition.icon;
 }
 
-/* getWeatherData("london").then(function(result){
-    tempC = result.current.temp_c;
-    currentCondition = result.current.condition;
-    return result.current.temp_c;
-}) */
+function fillWeatherDiv() {
+    let city = document.createElement("p");
+    city.textContent = weatherDataObject.city;
+    weatherDisplay.appendChild(city);
+}
 
+resultsDiv.addEventListener("click", (e)=> {
+    console.log(e.target)
+    searchField.value = e.target.innerText;
+    getWeatherData(searchField.value)
+    console.log(weatherDataObject);
+    removeResults();
+})
 
-searchField.addEventListener("keyup", () => {
+searchField.addEventListener("input", () => {
     if (searchField.value.length >= 3) {
         document.querySelector("#error").textContent = "";
         getLocationName();
 
     } else if (searchField.value.length < 3){
+        removeResults();
         document.querySelector("#error").textContent = "Search query must be atleast 3 characters long";
     }
 })
 
 searchBtn.addEventListener("click", () => {
+    getWeatherData(searchField.value);
+    console.log(weatherDataObject);
+})
+
+/* searchBtn.addEventListener("click", () => {
 
     let searchValue = document.querySelector("input");
 
@@ -61,4 +76,4 @@ searchBtn.addEventListener("click", () => {
         console.log(response.current.temp_f)
         console.log(response.current.condition)
     });
-})
+}) */
