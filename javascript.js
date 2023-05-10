@@ -2,7 +2,10 @@ const searchBtn = document.querySelector("#searchBtn");
 const searchField = document.querySelector("#searchField");
 const resultsDiv = document.querySelector("#resultsDiv");
 const weatherDisplay = document.querySelector("#weatherDisplay");
-let weatherDataObject = {};
+const tempSwitchButton = document.querySelector("#tempSwitchButton");
+let weatherTemp = {};
+getWeatherData("ljubljana");
+
 
 function removeResults(){
     while (resultsDiv.firstChild) {
@@ -24,25 +27,24 @@ async function getLocationName(){
 async function getWeatherData(city = "berlin") {
     const response = await fetch("http://api.weatherapi.com/v1/current.json?key=ab064d767fd5473299684532230505&q=" + city, {mode: "cors"});
     const weatherData = await response.json();
-    weatherDataObject.city = weatherData.location.name;
-    weatherDataObject.country = weatherData.location.country;
-    weatherDataObject.tempC = weatherData.current.temp_c;
-    weatherDataObject.tempF = weatherData.current.temp_f;
-    weatherDataObject.currentCondition = weatherData.current.condition.text;
-    weatherDataObject.icon = weatherData.current.condition.icon;
-}
-
-function fillWeatherDiv() {
-    let city = document.createElement("p");
-    city.textContent = weatherDataObject.city;
-    weatherDisplay.appendChild(city);
+    document.querySelector("#city").textContent = weatherData.location.name;
+    document.querySelector("#country").textContent = weatherData.location.country;
+    weatherTemp.tempC = weatherData.current.temp_c;
+    weatherTemp.tempF = weatherData.current.temp_f;
+    if (tempSwitchButton.textContent === "C") {
+        document.querySelector("#temperature").textContent = weatherTemp.tempC;
+    } else {
+        document.querySelector("#temperature").textContent = weatherTemp.tempF;
+    }
+    document.querySelector("#condition").textContent = weatherData.location.condition;
+    let weatherIconArray = weatherData.current.condition.icon.split("/");
+    document.querySelector("#weatherIcon").src = "./weather/64x64/" + weatherIconArray[5].concat("/", weatherIconArray[6]);
 }
 
 resultsDiv.addEventListener("click", (e)=> {
     console.log(e.target)
     searchField.value = e.target.innerText;
     getWeatherData(searchField.value)
-    console.log(weatherDataObject);
     removeResults();
 })
 
@@ -59,9 +61,24 @@ searchField.addEventListener("input", () => {
 
 searchBtn.addEventListener("click", () => {
     getWeatherData(searchField.value);
-    console.log(weatherDataObject);
+    if (tempSwitchButton.textContent === "C") {
+        document.querySelector("#temperature").textContent = weatherTemp.tempC;
+    } else {
+        document.querySelector("#temperature").textContent = weatherTemp.tempF;
+    }
 })
 
+document.querySelector("#tempSwitch").addEventListener("click", () => {
+    if (tempSwitchButton.classList.contains("tempSwitchButtonRight")) {
+        tempSwitchButton.classList.replace("tempSwitchButtonRight","tempSwitchButtonLeft");
+        tempSwitchButton.textContent = "C";
+        document.querySelector("#temperature").textContent = weatherTemp.tempC;
+    } else {
+        tempSwitchButton.classList.replace("tempSwitchButtonLeft", "tempSwitchButtonRight");
+        tempSwitchButton.textContent = "F";
+        document.querySelector("#temperature").textContent = weatherTemp.tempF;
+    }
+})
 /* searchBtn.addEventListener("click", () => {
 
     let searchValue = document.querySelector("input");
