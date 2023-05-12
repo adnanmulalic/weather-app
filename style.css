@@ -1,4 +1,5 @@
 body {
+    background-color: lightblue;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 #resultsDiv {
@@ -10,8 +11,10 @@ body {
     background-color: lightgray;
 }
 
-#weatherDisplay > span {
-    background-color: lightblue;
+#weatherDisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #tempSwitch {
@@ -19,9 +22,11 @@ body {
     width: 40px;
     height: 19px;
 }
+
 #tempSwitch:hover {
     cursor: pointer;
 }
+
 #tempSwitchButton {
     color: white;
     background-color: black;
@@ -35,11 +40,15 @@ body {
 
 .tempSwitchButtonLeft {
     margin-left: 2px;
-    
 }
 
 .tempSwitchButtonRight {
     margin-left: 23px;
-    
+}
+
+#container {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
 }
 
