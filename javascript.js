@@ -1,4 +1,3 @@
-const searchBtn = document.querySelector("#searchBtn");
 const searchField = document.querySelector("#searchField");
 const resultsDiv = document.querySelector("#resultsDiv");
 const weatherDisplay = document.querySelector("#weatherDisplay");
@@ -50,12 +49,9 @@ resultsDiv.addEventListener("click", (e)=> {
 
 searchField.addEventListener("input", () => {
     if (searchField.value.length >= 3) {
-        document.querySelector("#error").textContent = "";
         getLocationName();
-
     } else if (searchField.value.length < 3){
         removeResults();
-        document.querySelector("#error").textContent = "Search query must be atleast 3 characters long";
     }
 })
 
@@ -68,15 +64,6 @@ searchField.addEventListener("keydown", (e) =>{
     } else {
         document.querySelector("#temperature").textContent = weatherTemp.tempF;
     }
-    }
-})
-
-searchBtn.addEventListener("click", () => {
-    getWeatherData(searchField.value);
-    if (tempSwitchButton.textContent === "C") {
-        document.querySelector("#temperature").textContent = weatherTemp.tempC;
-    } else {
-        document.querySelector("#temperature").textContent = weatherTemp.tempF;
     }
 })
 

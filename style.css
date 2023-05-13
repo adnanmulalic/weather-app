@@ -1,39 +1,77 @@
 body {
-    background-color: lightblue;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    color: white;
+    font-size: 1.2rem;
+    background-color: rgb(37, 143, 182);
+    font-family: 'Inter', sans-serif;
 }
+
+header {
+    text-align: center;
+}
+
+main {
+    background-color: rgb(27, 112, 161);
+    min-width: fit-content;
+    max-width: 400px;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    width: 50%;
+    justify-self: center;
+    display: grid;
+}
+
+main > div {
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    align-self: end;
+}
+
+#searchField {
+    font-size: 1.2rem;
+    border: 0;
+    border-radius: 0.5rem;
+    outline: none;
+}
+
 #resultsDiv {
     display: flex;
     flex-direction: column;
 }
 
 #resultsDiv > span:hover {
-    background-color: lightgray;
+    background-color: rgba(255, 255, 255, 0.075);
 }
 
 #weatherDisplay {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 2rem;
 }
 
 #tempSwitch {
-    border: 1px solid black;
-    width: 40px;
-    height: 19px;
+    border: 1px solid white;
+    border-radius: 0.5rem;
+    width: 3rem;
+    height: 1.5rem;
 }
 
-#tempSwitch:hover {
+#tempSwitch:hover, #resultsDiv:hover {
     cursor: pointer;
 }
 
 #tempSwitchButton {
-    color: white;
-    background-color: black;
+    font-size: 1rem;
+    color: rgb(27, 112, 161);
+    background-color: white;
     text-align: center;
-    width: 15px;
-    height: 15px;
-    margin-top: 2px;
+    border-radius: 0.5rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 3px;
     margin-bottom: 2px;
     transition: margin-left 300ms;
 }
